@@ -22,12 +22,17 @@ int sc_main(int sc_argc, char* sc_argv[])
 
 	mod3.port3(data_c);
 	mod4.camera_out(data_c);
+	//int pin;
+	//std::cin >> pin;
+	
+		//mod1.sensor();
+		//mod2.sensor();
+		//mod4.camera();
 
-	//mod1.sensor();
-	//mod2.sensor();
-	//mod4.camera();
+sc_start(600, SC_SEC);
+
 	//mod3.dataanalysis();
-	//sc_start(600, SC_SEC);
+	
 	//clock_t end = clock();
 
 
