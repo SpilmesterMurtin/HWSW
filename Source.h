@@ -77,10 +77,13 @@ SC_MODULE(m2) {
 		double t0 = 0;
 		int sen1, sen2, cam1;
 		int itr = 0, pin_fail = 0;
+		bool intrution_detected = false;
 		while (true)
 		{
 			if (valid())
 			{
+				std::cout << "Correct pin entered sytem activates" << std::endl;
+
 				pin_fail = 0;
 				//read values from sensors and cameras
 				if (itr % 2 == 0)
@@ -100,8 +103,8 @@ SC_MODULE(m2) {
 				}
 				itr++;
 
-				std::cout << cam1 << std::endl;
-				std::cout << cam1 * (sen1 + sen2) << std::endl;
+				std::cout <<"Sen1: " << sen1 <<" Sen2: " << sen2<< " Cam1: " << cam1 << std::endl;
+				std::cout << "Intrution function returns " << cam1 * (sen1 + sen2) << std::endl;
 
 				//Check for intrution
 				int i_m = cam1 * (sen1 + sen2);
@@ -122,17 +125,20 @@ SC_MODULE(m2) {
 							vlid = true;
 							std::cout << "Correct pin entered. Welcome home" << std::endl;
 							i = 3;
+							intrution_detected = false;
 						}
 					}
 					if (vlid!=true || sc_time_stamp().to_seconds() - t0 >= 10)
 					{
 						wait(10, SC_SEC);
 						std::cout << "10 secounds has passed with no correct pin entered" << std::endl;
+						intrution_detected = true;
 					}
 				}
 				else
 				{
-					std::cout << "all is well" << std::endl;
+					std::cout << "No intrution detected, all is well" << std::endl;
+					intrution_detected = false;
 				}
 			}
 			else
@@ -146,8 +152,8 @@ SC_MODULE(m2) {
 				srand(time(NULL) + sc_simulation_time());
 				int random = rand() % 5;
 				wait(random, SC_SEC);
+				std::cout << "Time passed entering pin code " << sc_time_stamp().to_seconds() - t0 << "S" << std::endl;
 			}
-			std::cout << sc_time_stamp().to_seconds() - t0 << "S" << std::endl;
 			if (pin_fail > 2 || sc_time_stamp().to_seconds() - t0 >= 10)
 			{
 				pin_fail = 0;
